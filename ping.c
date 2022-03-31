@@ -951,7 +951,9 @@ int ping4_send_probe(socket_st *sock, void *packet, unsigned packet_size __attri
 		icp->checksum = in_cksum((unsigned short *)&tmp_tv, sizeof(tmp_tv), ~icp->checksum);
 	}
 
+	dmesgErr("RRY: user xmit call\n");
 	i = sendto(sock->fd, icp, cc, 0, (struct sockaddr *)&whereto, sizeof(whereto));
+	dmesgErr("RRY: user xmit return\n");
 
 	return (cc == i ? 0 : i);
 }

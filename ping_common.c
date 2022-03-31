@@ -719,6 +719,7 @@ void main_loop(ping_func_set_st *fset, socket_st *sock, uint8_t *packet, int pac
 			msg.msg_control = ans_data;
 			msg.msg_controllen = sizeof(ans_data);
 
+		dmesgErr("RRY: user recv call\n");
 			cc = recvmsg(sock->fd, &msg, polling);
 			polling = MSG_DONTWAIT;
 
@@ -759,7 +760,11 @@ void main_loop(ping_func_set_st *fset, socket_st *sock, uint8_t *packet, int pac
 				}
 
 				not_ours = fset->parse_reply(sock, &msg, cc, addrbuf, recv_timep);
+			if (! not_ours)
+				dmesgErr("RRY: user recv return\n");
 			}
+
+			
 
 			/* See? ... someone runs another ping on this host. */
 			if (not_ours && sock->socktype == SOCK_RAW)
