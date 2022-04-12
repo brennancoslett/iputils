@@ -752,7 +752,9 @@ int send_probe()
 		m.msg_controllen = cmsg_len;
 		iov.iov_len = cc;
 
+		dmesgErr("RRY: user xmit call\n");
 		i = sendmsg(icmp_sock, &m, confirm);
+		dmesgErr("RRY: user xmit return\n");
 		confirm = 0;
 	} while (0);
 

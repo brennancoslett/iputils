@@ -155,6 +155,22 @@ extern jmp_buf pr_addr_jmp;
 #define MSG_CONFIRM 0
 #endif
 
+/* RRY */
+static void dmesg( const char *tag, const char *msg, const int len )
+{
+    const int TAG_LEN=3;
+    char buffer[128]={0};
+    memcpy( &buffer[0], tag, TAG_LEN );
+    memcpy( &buffer[TAG_LEN], msg, len );
+    int fd_kmsg = open( "/dev/kmsg", O_WRONLY );
+    write( fd_kmsg, &buffer, TAG_LEN+len );
+    close( fd_kmsg );
+}
+static void dmesgErr(  const char *msg){ dmesg( "<3>", msg, strlen(msg) ); }
+static void dmesgWarn(  const char *msg){ dmesg( "<4>", msg, strlen(msg) ); }
+static void dmesgInfo(  const char *msg){ dmesg( "<6>", msg, strlen(msg) ); }
+static void dmesgDebug( const char *msg){ dmesg( "<7>", msg, strlen(msg) ); }
+
 
 /* timing */
 extern int timing;			/* flag to do timing */

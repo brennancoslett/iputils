@@ -801,6 +801,7 @@ void main_loop(int icmp_sock, __u8 *packet, int packlen)
 			msg.msg_control = ans_data;
 			msg.msg_controllen = sizeof(ans_data);
 
+			dmesgErr("RRY: user recv call\n");
 			cc = recvmsg(icmp_sock, &msg, polling);
 			polling = MSG_DONTWAIT;
 
@@ -813,6 +814,8 @@ void main_loop(int icmp_sock, __u8 *packet, int packlen)
 						break;
 					}
 					not_ours = 1;
+					if (! not_ours)
+						dmesgErr("RRY: user recv return\n");
 				}
 			} else {
 
